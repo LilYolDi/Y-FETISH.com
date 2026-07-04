@@ -1,89 +1,153 @@
+// Главное видео
 const video = document.getElementById("video");
-const source = video.querySelector("source");
 
-const cards = document.querySelectorAll(".card");
+if (video) {
 
-// Переключение видео
-cards.forEach(card => {
-    card.addEventListener("click", () => {
+    const source = video.querySelector("source");
+    const cards = document.querySelectorAll(".card");
 
-        const newSource = card.querySelector("source").getAttribute("src");
+    // Переключение видео
+    cards.forEach(card => {
+        card.addEventListener("click", () => {
 
-        source.src = newSource;
+            const newSource = card.querySelector("source").getAttribute("src");
 
-        video.load();
-        video.play();
+            source.src = newSource;
 
-        document.querySelector(".info h1").textContent =
-            card.querySelector("h3").textContent;
+            video.load();
+            video.play();
 
-        document.querySelector(".description p").textContent =
-            "Сейчас воспроизводится: " +
-            card.querySelector("h3").textContent;
+            const title = document.querySelector(".info h1");
+            if (title) {
+                title.textContent = card.querySelector("h3").textContent;
+            }
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
+            const desc = document.querySelector(".description p");
+            if (desc) {
+                desc.textContent = "Сейчас воспроизводится: " + card.querySelector("h3").textContent;
+            }
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
         });
     });
-});
 
-// Кнопки управления
-document.getElementById("play").onclick = () => video.play();
+    // Кнопки управления
+    const play = document.getElementById("play");
+    if (play) play.onclick = () => video.play();
 
-document.getElementById("pause").onclick = () => video.pause();
+    const pause = document.getElementById("pause");
+    if (pause) pause.onclick = () => video.pause();
 
-document.getElementById("mute").onclick = () => {
-    video.muted = !video.muted;
-};
-
-document.getElementById("fullscreen").onclick = () => {
-    if (video.requestFullscreen) {
-        video.requestFullscreen();
+    const mute = document.getElementById("mute");
+    if (mute) {
+        mute.onclick = () => {
+            video.muted = !video.muted;
+        };
     }
-};
+
+    const fullscreen = document.getElementById("fullscreen");
+    if (fullscreen) {
+        fullscreen.onclick = () => {
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            }
+        };
+    }
+}
 
 // Лайки
 let likes = Number(localStorage.getItem("likes")) || 352;
-const likesSpan = document.getElementById("likes");
-likesSpan.textContent = likes;
 
-document.getElementById("like").onclick = () => {
-    likes++;
+const likesSpan = document.getElementById("likes");
+
+if (likesSpan) {
     likesSpan.textContent = likes;
-    localStorage.setItem("likes", likes);
-};
+
+    const likeBtn = document.getElementById("like");
+
+    if (likeBtn) {
+        likeBtn.onclick = () => {
+            likes++;
+            likesSpan.textContent = likes;
+            localStorage.setItem("likes", likes);
+        };
+    }
+}
 
 // Дизлайки
 let dislikes = Number(localStorage.getItem("dislikes")) || 18;
-const dislikesSpan = document.getElementById("dislikes");
-dislikesSpan.textContent = dislikes;
 
-document.getElementById("dislike").onclick = () => {
-    dislikes++;
+const dislikesSpan = document.getElementById("dislikes");
+
+if (dislikesSpan) {
     dislikesSpan.textContent = dislikes;
-    localStorage.setItem("dislikes", dislikes);
-};
+
+    const dislikeBtn = document.getElementById("dislike");
+
+    if (dislikeBtn) {
+        dislikeBtn.onclick = () => {
+            dislikes++;
+            dislikesSpan.textContent = dislikes;
+            localStorage.setItem("dislikes", dislikes);
+        };
+    }
+}
 
 // Просмотры
-let views = Number(localStorage.getItem("views")) || 1523;
-views++;
-document.getElementById("views").textContent = "👁 " + views;
-localStorage.setItem("views", views);
+const viewsEl = document.getElementById("views");
+
+if (viewsEl) {
+    let views = Number(localStorage.getItem("views")) || 1523;
+    views++;
+    viewsEl.textContent = "👁 " + views;
+    localStorage.setItem("views", views);
+}
 
 // Поиск
 const search = document.querySelector(".search input");
 
-search.addEventListener("input", () => {
+if (search) {
 
-    const value = search.value.toLowerCase();
+    const cards = document.querySelectorAll(".card");
 
-    cards.forEach(card => {
+    search.addEventListener("input", () => {
 
-        const text = card.innerText.toLowerCase();
+        const value = search.value.toLowerCase();
 
-        card.style.display = text.includes(value) ? "block" : "none";
+        cards.forEach(card => {
+
+            const text = card.innerText.toLowerCase();
+
+            card.style.display = text.includes(value) ? "block" : "none";
+
+        });
 
     });
 
-});
+}
+
+// =======================
+// БОКОВОЕ МЕНЮ
+// =======================
+
+const menu = document.getElementById("sideMenu");
+const menuBtn = document.getElementById("menuBtn");
+const overlay = document.getElementById("overlay");
+
+if (menu && menuBtn && overlay) {
+
+    menuBtn.onclick = function () {
+        menu.classList.toggle("active");
+        overlay.classList.toggle("active");
+    };
+
+    overlay.onclick = function () {
+        menu.classList.remove("active");
+        overlay.classList.remove("active");
+    };
+
+}
