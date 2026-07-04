@@ -443,5 +443,5 @@ display:block;
 
 .logo{
   position: relative;
-  left: 20px; /* двигает только название вправо */
+  left: 10px; /* двигает только название вправо */
 }
